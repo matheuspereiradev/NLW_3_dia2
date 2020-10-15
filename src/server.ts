@@ -1,7 +1,7 @@
 import express from 'express';
 import './database/connection'
-
 const app = express();
+import routes from './routes'
 
 app.use(express.json());
 
@@ -13,6 +13,8 @@ app.post('/usuarios', (req,res)=>{
         nome:'matheus'
     })
 });
+
+app.use(routes)
 
 //query params localhost/usuario?nome=valor&nome2=valor2  request.query
 //route params DELETE localhost/usuario/1                 request.params         /usr/:id
@@ -34,4 +36,10 @@ la no script eu criei
 --ignore-watch node_modules  nao observa arquivos de la(deixa mais rapido)
 -typeorm gerenciador
 e sqlite3
+"strictPropertyInitialization": false no tsconfig.json
 */
+
+
+//yarn typeorm migration:create -n create_orfanatos
+//yarn typeorm migration:run
+//yarn typeorm migration:revert
