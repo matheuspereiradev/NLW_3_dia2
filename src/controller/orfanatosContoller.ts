@@ -1,7 +1,7 @@
 import {Request,Response} from 'express'
 import { getRepository } from 'typeorm'
 import Orfanatos from '../database/models/Orfanatos'
-import orfanatoView from '../views/orfantos_view'
+import orfanatoView from '../views/orfanatoView'
 
 export default{
     async index(req:Request,res:Response){
@@ -11,7 +11,7 @@ export default{
       const orfanatos = await orfanatosRepository.find({
         relations:['imagens']
       })
-      return res.json(orfanatos)
+      return res.json(orfanatoView.renderMany(orfanatos))
     },
 
     async show(req:Request,res:Response){
@@ -22,7 +22,7 @@ export default{
       const orfanato = await orfanatosRepository.findOneOrFail(id,{
         relations:['imagens']
       })
-      return res.json(orfanato)//chama a view pq ela vai tratar como eses dados devem ser retornados
+      return res.json(orfanatoView.render(orfanato))//chama a view pq ela vai tratar como eses dados devem ser retornados
     },
 
     async create(req:Request,res:Response){
