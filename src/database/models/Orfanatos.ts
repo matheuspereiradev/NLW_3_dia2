@@ -23,6 +23,7 @@ export default class Orfanatos{
     //apornta la pro orfanato na imagem
     @OneToMany(()=>Imagem, imagem=> imagem.orfanato,{
         cascade:['insert','update']
+        //vai executa açao em cascata
     })
     @JoinColumn({name:'orfanato_id'})
     imagens:Imagem[];
