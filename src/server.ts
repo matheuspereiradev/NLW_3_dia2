@@ -1,7 +1,13 @@
-import express from 'express';
+import express from 'express'
+import 'express-async-errors'
 import './database/connection'
 const app = express();
 import routes from './routes'
+import path from 'path'
+import cors from 'cors'
+
+
+import handler from './errors/handler'
 
 app.use(express.json());
 
@@ -15,7 +21,9 @@ app.post('/usuarios', (req,res)=>{
 });
 
 app.use(routes)
-
+app.use('/uploads',express.static(path.join(__dirname, '..' ,'uploads')))
+app.use(handler)//trtar os erros
+app.use(cors())//pra cessar de diferentes locais
 //query params localhost/usuario?nome=valor&nome2=valor2  request.query
 //route params DELETE localhost/usuario/1                 request.params         /usr/:id
 //body vem de form                                        request.body   

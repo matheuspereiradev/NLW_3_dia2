@@ -1,4 +1,5 @@
 import Orfanato from '../database/models/Orfanatos'
+import imagensView from '../views/imagensView'
 
 export default{
     render(orfanato:Orfanato){
@@ -10,7 +11,8 @@ export default{
             sobre:orfanato.sobre,
             abre_as:orfanato.abre_as,
             instrucoes:orfanato.instrucoes,
-            aberto_final_semana:orfanato.aberto_final_semana
+            aberto_final_semana:orfanato.aberto_final_semana,
+            imagens:imagensView.renderMany(orfanato.imagens)
         }
     },
 

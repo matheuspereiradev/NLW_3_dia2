@@ -3,6 +3,8 @@ import { getRepository } from 'typeorm'
 import Orfanatos from '../database/models/Orfanatos'
 import orfanatoView from '../views/orfanatoView'
 
+import * as Yup from 'yup'
+
 export default{
     async index(req:Request,res:Response){
       const orfanatosRepository = getRepository(Orfanatos) //aponta para o model orfanatos
@@ -46,7 +48,7 @@ export default{
             }
           })
 
-          const orfanato = orfanatosRepository.create({
+          const dados={
             nome,
             latitude,
             longitude,
@@ -55,7 +57,26 @@ export default{
             instrucoes,
             aberto_final_semana,
             imagens
+          }
+
+          const padrao = Yup.object().shape({
+            nome:Yup.string().required('nome é obrigatorio'),
+            latitude:Yup.number().required(),
+            longitude:Yup.number().required(),
+            sobre:Yup.string().required().max(300),
+            abre_as:Yup.string().required(),
+            instrucoes:Yup.string().required(),
+            aberto_final_semana:Yup.boolean().required(),
+            imagens:Yup.array(Yup.object().shape({
+              path:Yup.string().required()
+            }))
           })
+          //abortEarly exibe todos os erros
+          await padrao.validate(dados,{
+            abortEarly:false
+          })
+
+          const orfanato = orfanatosRepository.create(dados)
           await orfanatosRepository.save(orfanato)
 
           return res.status(201).json(orfanato) 
